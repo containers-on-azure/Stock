@@ -11,7 +11,7 @@ namespace Stock.Api.Controllers
     /// <summary>
     /// Information about single stocks
     /// </summary>
-    [Route("api/[controller]")]
+    [Route("api/v1/[controller]")]
     [ApiController]
     public class StocksController : ControllerBase
     {
