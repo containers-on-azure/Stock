@@ -1,0 +1,42 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+   name: stage
+   labels:
+     name: stage
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: stock-stage-api
+  namespace: stage
+spec:
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: stock
+        component: stock-api
+    spec:
+      containers:
+      - name: stock-api
+        image: #{DOCKER_REGISTRY}#/stockapi:#{Build.BuildId}#
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: stock-api
+  namespace: stage
+  labels:
+    app: stock
+    component: stock-api
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+  selector:
+    component: stock-api
